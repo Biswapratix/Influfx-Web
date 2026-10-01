@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>INFLUFX | AI-Powered Marketing & Creator Solutions</title>
+    <meta name="description" content="INFLUFX uses AI-powered marketing and creator intelligence to connect brands with relevant creators and digital talent. Where brands meet influence.">
+    <meta name="keywords" content="INFLUFX, Influencer Marketing, Influencer Marketing Agency, Creator Discovery, Creator Marketing, AI-Powered Marketing, Digital Marketing, Social Media Marketing, UGC Marketing, Marketing Automation">
+    <meta name="author" content="INFLUFX">
+    <link rel="canonical" href="https://www.influfx.com/" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="INFLUFX | AI-Powered Marketing & Creator Solutions">
+    <meta property="og:description" content="AI-powered marketing and creator solutions connecting brands with the right digital talent.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#020205',
+                            navy: '#0a0a1a',
+                            electric: '#3b82f6',
+                            indigo: '#6366f1',
+                            violet: '#8b5cf6',
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020205;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(10, 10, 26, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(to right, #3b82f6, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .text-gradient-subtle {
+            background: linear-gradient(to right, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Canvas Background */
+        #network-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* AI Core Animations */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 20px rgba(99,102,241,0.2), 0 0 40px rgba(99,102,241,0.1); }
+            50% { box-shadow: 0 0 40px rgba(139,92,246,0.6), 0 0 80px rgba(139,92,246,0.4); }
+            100% { box-shadow: 0 0 20px rgba(99,102,241,0.2), 0 0 40px rgba(99,102,241,0.1); }
+        }
+        .ai-core {
+            animation: pulse-glow 3s infinite ease-in-out;
+            background: radial-gradient(circle at center, #6366f1 0%, #3b82f6 50%, transparent 100%);
+        }
+
+        /* Hamburger Menu Animation */
+        .hamburger-line {
+            transition: all 0.3s ease;
+        }
+        .menu-open .line-1 { transform: translateY(8px) rotate(45deg); }
+        .menu-open .line-2 { opacity: 0; }
+        .menu-open .line-3 { transform: translateY(-8px) rotate(-45deg); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020205; }
+        ::-webkit-scrollbar-thumb { background: #1e1e38; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-indigo selection:text-white">
+
+    <canvas id="network-canvas"></canvas>
+
+    <header class="fixed w-full top-0 z-50 glass border-b-0 transition-all duration-300" id="header">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 h-24 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-heading font-bold tracking-wider text-white relative group">
+                INFLU<span class="text-gradient">FX</span>
+                <div class="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-electric to-brand-violet transition-all duration-300 group-hover:w-full"></div>
+            </a>
+
+            <!-- Hamburger -->
+            <button id="menu-toggle" class="relative w-8 h-6 z-50 focus:outline-none flex flex-col justify-between cursor-pointer" aria-label="Toggle Menu">
+                <span class="hamburger-line line-1 w-full h-[2px] bg-white rounded-full"></span>
+                <span class="hamburger-line line-2 w-full h-[2px] bg-white rounded-full"></span>
+                <span class="hamburger-line line-3 w-full h-[2px] bg-white rounded-full"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Fullscreen Menu Overlay -->
+    <nav id="mobile-menu" class="fixed inset-0 z-40 bg-brand-black/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-500 flex flex-col items-center justify-center">
+        <ul class="text-center space-y-8">
+            <li><a href="#home" class="menu-link text-4xl md:text-6xl font-heading font-light text-white/70 hover:text-white transition-colors duration-300 hover:text-gradient">Home</a></li>
+            <li><a href="#services" class="menu-link text-4xl md:text-6xl font-heading font-light text-white/70 hover:text-white transition-colors duration-300 hover:text-gradient">Services</a></li>
+            <li><a href="#how-we-work" class="menu-link text-4xl md:text-6xl font-heading font-light text-white/70 hover:text-white transition-colors duration-300 hover:text-gradient">How We Work</a></li>
+            <li><a href="#about" class="menu-link text-4xl md:text-6xl font-heading font-light text-white/70 hover:text-white transition-colors duration-300 hover:text-gradient">About</a></li>
+            <li><a href="#contact" class="menu-link text-4xl md:text-6xl font-heading font-light text-white/70 hover:text-white transition-colors duration-300 hover:text-gradient">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home" class="relative min-h-screen flex items-center justify-center pt-24 pb-12 px-6 lg:px-12 overflow-hidden">
+            <!-- Subtle background radial gradient -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.08)_0%,transparent_50%)]"></div>
+            
+            <div class="relative z-10 max-w-5xl mx-auto text-center reveal">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold leading-[1.1] mb-6 tracking-tight text-white">
+                    WHERE BRANDS <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-brand-indigo to-brand-violet">MEET INFLUENCE.</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto mb-10 leading-relaxed">
+                    AI-powered marketing and creator solutions connecting brands with the right digital talent.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <a href="#services" class="px-8 py-4 rounded-full bg-gradient-to-r from-brand-electric to-brand-violet text-white font-medium hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto">
+                        Explore Services
+                    </a>
+                    <a href="#contact" class="px-8 py-4 rounded-full glass border border-white/20 text-white font-medium hover:bg-white/10 transition-all duration-300 w-full sm:w-auto">
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 relative z-10 border-y border-white/5 bg-brand-black/50 backdrop-blur-sm">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                    <div class="reveal delay-100">
+                        <div class="text-5xl md:text-6xl font-heading font-bold text-gradient mb-2">50,000+</div>
+                        <div class="text-gray-400 font-medium tracking-widest uppercase text-sm">Creators</div>
+                    </div>
+                    <div class="reveal delay-200">
+                        <div class="text-5xl md:text-6xl font-heading font-bold text-gradient mb-2">5,000+</div>
+                        <div class="text-gray-400 font-medium tracking-widest uppercase text-sm">Brands</div>
+                    </div>
+                    <div class="reveal delay-300">
+                        <div class="text-5xl md:text-6xl font-heading font-bold text-gradient mb-2">AI-Powered</div>
+                        <div class="text-gray-400 font-medium tracking-widest uppercase text-sm">Marketing</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-we-work" class="py-32 relative z-10">
+            <div class="max-w-5xl mx-auto px-6 lg:px-12 text-center reveal">
+                <h2 class="text-sm font-bold tracking-[0.3em] text-brand-electric uppercase mb-6">How We Work</h2>
+                
+                <p class="text-xl md:text-2xl lg:text-3xl text-gray-300 font-light leading-relaxed mb-16 text-balance">
+                    “INFLUFX uses AI-powered marketing and creator intelligence to connect brands with relevant creators and digital talent. We understand the campaign requirement, identify suitable creator opportunities, coordinate collaborations and support campaign execution — helping brands move from strategy to creator-led growth.”
+                </p>
+
+                <!-- Process Flow -->
+                <div class="flex flex-wrap items-center justify-center gap-4 md:gap-8 font-heading font-semibold text-sm md:text-base lg:text-lg tracking-wider text-white/80">
+                    <span class="hover:text-brand-electric transition-colors">DISCOVER</span>
+                    <i class="fas fa-chevron-right text-brand-indigo/50 text-xs"></i>
+                    <span class="hover:text-brand-indigo transition-colors">MATCH</span>
+                    <i class="fas fa-chevron-right text-brand-indigo/50 text-xs"></i>
+                    <span class="hover:text-brand-violet transition-colors">COLLABORATE</span>
+                    <i class="fas fa-chevron-right text-brand-indigo/50 text-xs"></i>
+                    <span class="hover:text-brand-electric transition-colors">EXECUTE</span>
+                    <i class="fas fa-chevron-right text-brand-indigo/50 text-xs"></i>
+                    <span class="text-gradient font-bold">GROW</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-32 relative z-10 bg-brand-navy/30">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                <div class="text-center mb-20 reveal">
+                    <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">WHAT WE DO</h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-brand-electric to-brand-violet mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Service Cards Array simulated -->
+                    <!-- Card 1 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-electric/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-hashtag text-3xl text-brand-electric mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Influencer Marketing</h3>
+                        <p class="text-gray-400 text-sm font-light">Connecting brands with highly relevant digital voices.</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 50ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-indigo/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-search text-3xl text-brand-indigo mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Creator Discovery</h3>
+                        <p class="text-gray-400 text-sm font-light">AI-driven search to find the perfect creator match.</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 100ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-violet/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-share-nodes text-3xl text-brand-violet mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Social Media Marketing</h3>
+                        <p class="text-gray-400 text-sm font-light">Strategic multi-platform social growth and engagement.</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 150ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-electric/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-building-shield text-3xl text-brand-electric mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Brand Building</h3>
+                        <p class="text-gray-400 text-sm font-light">Crafting strong, recognizable digital identities.</p>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 200ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-indigo/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-chart-line text-3xl text-brand-indigo mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Performance Marketing</h3>
+                        <p class="text-gray-400 text-sm font-light">Data-driven campaigns for measurable ROI.</p>
+                    </div>
+                    <!-- Card 6 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 250ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-violet/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-tasks text-3xl text-brand-violet mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Campaign Management</h3>
+                        <p class="text-gray-400 text-sm font-light">End-to-end execution of complex brand campaigns.</p>
+                    </div>
+                    <!-- Card 7 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 300ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-electric/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-camera-retro text-3xl text-brand-electric mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">UGC & Creator Campaigns</h3>
+                        <p class="text-gray-400 text-sm font-light">Authentic user-generated content strategies.</p>
+                    </div>
+                    <!-- Card 8 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 350ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-indigo/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-microchip text-3xl text-brand-indigo mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">AI-Powered Marketing</h3>
+                        <p class="text-gray-400 text-sm font-light">Leveraging artificial intelligence for smarter marketing.</p>
+                    </div>
+                    <!-- Card 9 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 400ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-violet/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-magnifying-glass-chart text-3xl text-brand-violet mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">SEO & Digital Growth</h3>
+                        <p class="text-gray-400 text-sm font-light">Organic strategies to increase digital visibility.</p>
+                    </div>
+                    <!-- Card 10 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 450ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-electric/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-laptop-code text-3xl text-brand-electric mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Web Development</h3>
+                        <p class="text-gray-400 text-sm font-light">Building premium digital experiences and platforms.</p>
+                    </div>
+                    <!-- Card 11 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 500ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-indigo/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-robot text-3xl text-brand-indigo mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Marketing Automation</h3>
+                        <p class="text-gray-400 text-sm font-light">Streamlining processes for maximum efficiency.</p>
+                    </div>
+                    <!-- Card 12 -->
+                    <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 550ms;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-violet/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <i class="fas fa-pen-nib text-3xl text-brand-violet mb-6"></i>
+                        <h3 class="text-xl font-heading font-semibold mb-3 text-white group-hover:text-gradient-subtle transition-colors">Content & Creative</h3>
+                        <p class="text-gray-400 text-sm font-light">High-quality creative solutions for modern brands.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-0 relative z-10">
+            <div class="flex flex-col lg:flex-row min-h-[600px]">
+                <!-- For Brands -->
+                <div class="flex-1 p-12 lg:p-24 flex flex-col justify-center relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-electric/5 to-transparent z-0"></div>
+                    <div class="relative z-10 max-w-lg ml-auto reveal">
+                        <h2 class="text-sm font-bold tracking-widest text-brand-electric mb-4">FOR BRANDS</h2>
+                        <h3 class="text-3xl md:text-4xl font-heading font-semibold mb-6">Find relevant creators. Build meaningful campaigns. Scale your digital presence.</h3>
+                        <ul class="space-y-4 mb-10 text-gray-300 font-light">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-brand-electric text-sm"></i> Creator Discovery</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-brand-electric text-sm"></i> Campaign Planning</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-brand-electric text-sm"></i> Creator Coordination</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-brand-electric text-sm"></i> Campaign Execution</li>
+                        </ul>
+                        <a href="mailto:collab@influfx.com" class="inline-block px-8 py-4 rounded-full glass border border-brand-electric/30 text-white font-medium hover:bg-brand-electric/10 transition-all duration-300">
+                            Work With Us
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Vertical Divider -->
+                <div class="hidden lg:block w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
+
+                <!-- For Creators -->
+                <div class="flex-1 p-12 lg:p-24 flex flex-col justify-center relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-bl from-brand-violet/5 to-transparent z-0"></div>
+                    <div class="relative z-10 max-w-lg mr-auto reveal delay-100">
+                        <h2 class="text-sm font-bold tracking-widest text-brand-violet mb-4">FOR CREATORS</h2>
+                        <h3 class="text-3xl md:text-4xl font-heading font-semibold mb-6">Connect with relevant brand opportunities and creator-led campaigns.</h3>
+                        <ul class="space-y-4 mb-10 text-gray-300 font-light">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-brand-violet text-sm"></i> Brand Collaborations</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-brand-violet text-sm"></i> Campaign Opportunities</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-brand-violet text-sm"></i> UGC</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-brand-violet text-sm"></i> Content Partnerships</li>
+                        </ul>
+                        <a href="mailto:collab@influfx.com" class="inline-block px-8 py-4 rounded-full glass border border-brand-violet/30 text-white font-medium hover:bg-brand-violet/10 transition-all duration-300">
+                            Join Creators
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-32 relative z-10 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center reveal">
+                <h2 class="text-5xl md:text-6xl font-heading font-bold mb-24">POWERED BY <span class="text-gradient">AI.</span></h2>
+                
+                <div class="relative flex flex-col items-center justify-center">
+                    
+                    <!-- Inputs -->
+                    <div class="flex flex-wrap justify-center gap-4 md:gap-12 mb-16 relative z-10">
+                        <div class="glass px-6 py-3 rounded-full text-sm text-gray-300">Brand Requirements</div>
+                        <div class="glass px-6 py-3 rounded-full text-sm text-gray-300">Creator Intelligence</div>
+                        <div class="glass px-6 py-3 rounded-full text-sm text-gray-300">Campaign Data</div>
+                        <div class="glass px-6 py-3 rounded-full text-sm text-gray-300">Audience Signals</div>
+                        <div class="glass px-6 py-3 rounded-full text-sm text-gray-300">Content</div>
+                    </div>
+
+                    <!-- Visual Flow Down -->
+                    <div class="w-px h-16 bg-gradient-to-b from-white/20 to-brand-electric mb-8"></div>
+
+                    <!-- AI Core -->
+                    <div class="relative w-32 h-32 md:w-48 md:h-48 rounded-full ai-core flex items-center justify-center mb-8 z-10">
+                        <div class="absolute inset-0 rounded-full border border-white/20 animate-[spin_10s_linear_infinite]"></div>
+                        <div class="absolute inset-2 rounded-full border border-brand-electric/40 animate-[spin_15s_linear_infinite_reverse]"></div>
+                        <span class="font-heading font-bold text-xl md:text-2xl tracking-widest text-white relative z-10">INFLU<br>FX</span>
+                    </div>
+
+                    <!-- Visual Flow Down -->
+                    <div class="w-px h-16 bg-gradient-to-b from-brand-violet to-transparent mb-16"></div>
+
+                    <!-- Outputs -->
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 relative z-10">
+                        <h4 class="text-xl md:text-2xl font-heading font-medium text-brand-electric">SMARTER DISCOVERY</h4>
+                        <div class="hidden md:block w-2 h-2 rounded-full bg-white/30"></div>
+                        <h4 class="text-xl md:text-2xl font-heading font-medium text-brand-indigo">BETTER CONNECTIONS</h4>
+                        <div class="hidden md:block w-2 h-2 rounded-full bg-white/30"></div>
+                        <h4 class="text-xl md:text-2xl font-heading font-medium text-brand-violet">FASTER EXECUTION</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 relative z-10 bg-brand-navy/50 border-y border-white/5">
+            <div class="max-w-4xl mx-auto px-6 text-center reveal">
+                <h2 class="text-sm font-bold tracking-[0.3em] text-gray-500 uppercase mb-8">BUILT WITH A NEW VISION.</h2>
+                <h3 class="text-5xl md:text-7xl font-heading font-light text-white tracking-wide">Biswapratik</h3>
+            </div>
+        </section>
+
+        <section id="contact" class="py-32 relative z-10 overflow-hidden">
+            <!-- Subtle animated background element -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-indigo/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
+                <h2 class="text-5xl md:text-7xl font-heading font-bold mb-6 text-white leading-tight">
+                    READY TO BUILD <br>
+                    <span class="text-gradient">WHAT’S NEXT?</span>
+                </h2>
+                <p class="text-xl text-gray-400 font-light mb-16">
+                    Let’s connect brands, creators and ideas through smarter marketing.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/917008920130" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 hover:bg-[#25D366] hover:text-brand-black text-white font-medium transition-all duration-300 w-full sm:w-auto">
+                        <i class="fab fa-whatsapp text-xl group-hover:text-brand-black text-[#25D366] transition-colors"></i>
+                        +91 7008920130
+                    </a>
+                    
+                    <!-- Email 1 -->
+                    <a href="mailto:collab@influfx.com" class="group flex items-center justify-center gap-3 px-8 py-4 rounded-full glass border border-brand-electric/30 hover:border-brand-electric text-white font-medium transition-all duration-300 w-full sm:w-auto hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                        <i class="fas fa-envelope text-brand-electric group-hover:text-white transition-colors"></i>
+                        collab@influfx.com
+                    </a>
+
+                    <!-- Email 2 -->
+                    <a href="mailto:info@influfx.com" class="group flex items-center justify-center gap-3 px-8 py-4 rounded-full glass border border-brand-violet/30 hover:border-brand-violet text-white font-medium transition-all duration-300 w-full sm:w-auto hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+                        <i class="fas fa-envelope text-brand-violet group-hover:text-white transition-colors"></i>
+                        info@influfx.com
+                    </a>
+                </div>
+                
+                <div class="mt-20 pt-10 border-t border-white/10 flex flex-wrap justify-center gap-6">
+                    <a href="https://wa.me/917008920130" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-400 hover:text-[#25D366] hover:border-[#25D366]/50 hover:shadow-[0_0_15px_rgba(37,211,102,0.3)] hover:-translate-y-1 transition-all duration-300" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/influfx/" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-400 hover:text-[#E1306C] hover:border-[#E1306C]/50 hover:shadow-[0_0_15px_rgba(225,48,108,0.3)] hover:-translate-y-1 transition-all duration-300" aria-label="Instagram">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@influfxofficial" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-400 hover:text-[#FF0000] hover:border-[#FF0000]/50 hover:shadow-[0_0_15px_rgba(255,0,0,0.3)] hover:-translate-y-1 transition-all duration-300" aria-label="YouTube">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                    <a href="https://www.facebook.com/influfx" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-400 hover:text-[#1877F2] hover:border-[#1877F2]/50 hover:shadow-[0_0_15px_rgba(24,119,242,0.3)] hover:-translate-y-1 transition-all duration-300" aria-label="Facebook">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/influfx/" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-400 hover:text-[#0A66C2] hover:border-[#0A66C2]/50 hover:shadow-[0_0_15px_rgba(10,102,194,0.3)] hover:-translate-y-1 transition-all duration-300" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="https://x.com/influfxofficial" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-400 hover:text-white hover:border-white/50 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:-translate-y-1 transition-all duration-300" aria-label="X (Twitter)">
+                        <i class="fab fa-x-twitter text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-12 bg-brand-black border-t border-white/5 relative z-10 text-center">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center">
+            <a href="#" class="text-2xl font-heading font-bold tracking-wider text-white mb-2">
+                INFLU<span class="text-gradient">FX</span>
+            </a>
+            <p class="text-gray-500 text-sm font-light mb-8">AI-Powered Marketing & Creator Solutions</p>
+            
+            <nav class="flex flex-wrap justify-center gap-6 mb-8 text-sm text-gray-400">
+                <a href="#home" class="hover:text-white transition-colors">Home</a>
+                <a href="#services" class="hover:text-white transition-colors">Services</a>
+                <a href="#how-we-work" class="hover:text-white transition-colors">How We Work</a>
+                <a href="#about" class="hover:text-white transition-colors">About</a>
+                <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <p class="text-gray-600 text-xs font-light">
+                &copy; 2026 INFLUFX. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Mobile Menu Toggle ---
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuLinks = document.querySelectorAll('.menu-link');
+            let isMenuOpen = false;
+
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+                if(isMenuOpen) {
+                    menuToggle.classList.add('menu-open');
+                    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                } else {
+                    menuToggle.classList.remove('menu-open');
+                    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            menuToggle.addEventListener('click', toggleMenu);
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(isMenuOpen) toggleMenu();
+                });
+            });
+
+            // --- Header Scroll Effect ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('py-4');
+                    header.classList.remove('h-24');
+                    header.style.backgroundColor = 'rgba(10, 10, 26, 0.8)';
+                } else {
+                    header.classList.remove('py-4');
+                    header.classList.add('h-24');
+                    header.style.backgroundColor = 'rgba(10, 10, 26, 0.4)';
+                }
+            });
+
+            // --- Scroll Reveal Animation ---
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Reveal only once
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.15,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // --- Smooth Scrolling for all internal links ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        const headerOffset = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // --- 3D Canvas Network Background ---
+            const canvas = document.getElementById('network-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+
+            function resizeCanvas() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = Math.random() * 2 + 1;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                    if (this.y < 0 || this.y > height) this.vy = -this.vy;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(99, 102, 241, 0.5)';
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                // Reduce particle count on mobile for performance
+                const particleCount = width < 768 ? 40 : 80;
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        // Connection threshold
+                        const maxDistance = 150;
+
+                        if (distance < maxDistance) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            
+                            // Opacity based on distance
+                            const opacity = 1 - (distance / maxDistance);
+                            // Gradient colored lines based on vertical position
+                            const avgY = (particles[i].y + particles[j].y) / 2;
+                            const colorPhase = avgY / height;
+                            
+                            // Mix between electric blue and violet
+                            const r = Math.floor(59 + (139 - 59) * colorPhase);
+                            const g = Math.floor(130 - (130 - 92) * colorPhase);
+                            const b = Math.floor(246 + (246 - 246) * colorPhase);
+
+                            ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${opacity * 0.3})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+
+            initParticles();
+            animate();
+        });
+    </script>
+</body>
+</html>
